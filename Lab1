@@ -1,0 +1,131 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
+#include <stdbool.h>
+void getInput();
+void bin2dec(char* bin);
+void dec2bin(char* ints);
+bool checkAlphabit(char* string);
+bool checkAlphabint(char* string);
+void unary(char* subInt);
+int main() {
+   getInput();
+}
+void getInput() { //compares user input to valid commands
+    printf("Hello, welcome to my Bit calculator.\n"
+           "If you type in 'dec2bin(YOUR_DECIMAL)' I will convert your base 10 number to its binary equivalent\n"
+           "If you type in 'bin2dec(YOUR_BINARY)' I will convert your base 2 number to its decimal equivalent\n"
+           "if you type in 'unary(YOUR_INT)'I will convert your base 10 number to unary code\n"
+           "if you type in 'gamma(YOUR_INT)'I will convert your base 10 number to unary code\n"
+           "If you type 'help' I will tell you exactly what I just said above\n"
+           "If you type anything else I will feel sad because nobody listens to me.\n");
+    int len_Max = 128;
+    char input[len_Max];
+    while (strcmp(input, "quit") != 0) {
+        printf(">>>");
+        scanf("%s", input);
+        char* subString = strtok(input, "(");
+        char* subInt = strtok(NULL, ")");
+        if ((strcmp("bin2dec", subString)) == 0) {
+           bin2dec(subInt);
+        }else if ((strcmp("dec2bin", subString)) == 0) {
+            dec2bin(subInt);
+        }else if(strcmp("unary",subString)==0){
+            unary(subInt);
+        }else if((strcmp("help",input))==0) {
+            printf("Hello, welcome to my Bit calculator.\n"
+                   "If you type in 'dec2bin(YOUR_DECIMAL)' I will convert your base 10 number to its binary equivalent\n"
+                   "If you type in 'bin2dec(YOUR_BINARY)' I will convert your base 2 number to its decimal equivalent\n"
+                   "if you type in 'unary(YOUR_INT)'I will convert your base 10 number to unary code\n"
+                   "if you type in 'gamma(YOUR_INT)'I will convert your base 10 number to unary code\n"
+                   "If you type 'help' I will tell you exactly what I just said above\n"
+                   "If you type anything else I will feel sad because nobody listens to me.\n");
+        }else if(strcmp("quit",input) !=0){
+            printf("Invalid input: Type 'help' to see valid input options.\n");
+        }
+
+    }
+}
+    void bin2dec(char* bits){
+    bool run =checkAlphabit(bits);
+    if (run) {
+        int bits1 = atoi(bits);// char to ints
+        int dec = 0;
+        int base = 1;
+        int temp = bits1;
+        while (temp > 0) {
+            int lsd = temp % 10;
+            temp = temp / 10;
+            dec += lsd * base;
+            base = base * 2;
+        }
+        printf("%d\n", dec);
+   }else{
+        printf("Input invalid: This command must contain only 1s and 0s in between the parentheses\n");
+    }
+}
+    void dec2bin(char* ints){
+        bool run = checkAlphabint(ints);
+        if (run){
+        int ints1= atoi(ints);//char to ints
+        int binary[128];
+        int i = 0;
+        while(ints1 >0){
+            binary[i]=ints1%2;
+            ints1=ints1/2;
+            i++;
+        }
+        for (int j = i-1; j >=0 ; j--) {
+            printf("%d",binary[j]);
+        }}else{
+            printf("Invalid input: ensure that there is an integer between the parentheses");
+        }
+        printf("\n");
+
+}
+// check to see if there is a valid input into bin2dec method
+    bool checkAlphabit(char* string){
+        bool valid = true;
+    if(string == NULL){//ensures there is something between the parentheses
+        valid = false;
+    }else{
+        int j = strlen(string);
+        for (int i = 0; i <j; i++) {
+            char check = *string++;
+            if('0' != check && '1'!= check){// ensures there are only 1s and 0s between the parentheses
+                valid = false;
+            }
+        }
+    }return valid;
+    }
+    //check if input is valid into dec2bin and unary functions
+    bool checkAlphabint(char* string){
+
+    bool valid = true;
+    if (string== NULL){//ensures there is something between parentheses
+        valid = false;
+    }else{
+        int j = strlen(string);
+        for (int i = 0; i < j; i++) {
+            char check = *string++;
+            if ('0' != check && '1' != check &&'2'!= check && '3' != check && '4' != check && '5' != check && '6' != check &&
+                '7' != check && '8' != check && '9' != check) {//ensures there are only digits between parentheses
+                valid = false;
+            }
+        }
+    }
+    return valid;
+    }
+    void unary(char* subint){
+    bool run = checkAlphabint(subint);
+    if (run){
+        int n =atoi(subint);//char to integer
+        for (int i = 1; i <= n; i++) {
+            printf("1");
+        }
+        printf("0\n");
+    } else{
+        printf("Invalid input: ensure that there is an integer between the parentheses \n");
+    }
+    }
